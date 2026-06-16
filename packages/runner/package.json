@@ -1,0 +1,25 @@
+{
+  "name": "@opendistil/runner",
+  "version": "0.1.0",
+  "description": "Agent session runner and execution controller",
+  "license": "Apache-2.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@opendistil/core": "*",
+    "@opendistil/recorder": "*",
+    "@opendistil/environments": "*",
+    "@opendistil/telemetry": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

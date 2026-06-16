@@ -1,0 +1,26 @@
+{
+  "name": "@opendistil/cli",
+  "version": "0.1.0",
+  "description": "OpenDistil CLI",
+  "license": "Apache-2.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "opendistil": "dist/index.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "opendistil": "*",
+    "commander": "^12.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

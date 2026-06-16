@@ -1,0 +1,22 @@
+{
+  "name": "@opendistil/environments",
+  "version": "0.1.0",
+  "description": "Environment providers for OpenDistil (Podman, Docker, Local)",
+  "license": "Apache-2.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@opendistil/core": "*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

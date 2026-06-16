@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.turbo/
+*.tsbuildinfo
+.env
+.env.local
+coverage/
+__pycache__/
+*.pyc
+.DS_Store
+~/.opendistil/
