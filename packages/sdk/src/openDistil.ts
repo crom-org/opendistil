@@ -1,6 +1,6 @@
 import { Dataset, ExportResult } from "@opendistil/core";
 import { ExporterPipeline } from "@opendistil/exporters";
-import { Orchestrator, GenerateConfig } from "./orchestrator";
+import { Orchestrator, GenerateConfig } from "./orchestrator.js";
 
 export interface OpenDistilConfig {
   storageDir?: string;

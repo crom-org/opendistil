@@ -2,8 +2,8 @@ import type { AgentSession, AgentSessionEvent } from "@earendil-works/pi-coding-
 import {
   Trajectory,
 } from "@opendistil/core";
-import { TrajectoryBuilder } from "./trajectoryBuilder";
-import { MetadataCollector } from "./metadataCollector";
+import { TrajectoryBuilder } from "./trajectoryBuilder.js";
+import { MetadataCollector } from "./metadataCollector.js";
 
 export class Recorder {
   private trajectoryBuilder: TrajectoryBuilder;

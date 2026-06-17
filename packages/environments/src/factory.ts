@@ -1,7 +1,7 @@
 import { IEnvironmentProvider } from "@opendistil/core";
-import { PodmanProvider } from "./providers/podmanProvider";
-import { DockerProvider } from "./providers/dockerProvider";
-import { LocalProvider } from "./providers/localProvider";
+import { PodmanProvider } from "./providers/podmanProvider.js";
+import { DockerProvider } from "./providers/dockerProvider.js";
+import { LocalProvider } from "./providers/localProvider.js";
 
 export interface ProviderFactoryConfig {
   defaultProvider: string;

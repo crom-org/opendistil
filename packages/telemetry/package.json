@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "description": "Telemetry, metrics, and event logging for OpenDistil",
   "license": "Apache-2.0",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": ["dist"],

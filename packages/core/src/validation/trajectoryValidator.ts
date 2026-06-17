@@ -1,4 +1,4 @@
-import { Trajectory, ToolCall } from "../types/trajectory";
+import { Trajectory, ToolCall } from "../types/trajectory.js";
 
 export interface ValidationResult {
   valid: boolean;

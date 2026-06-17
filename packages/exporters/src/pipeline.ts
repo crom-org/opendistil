@@ -1,8 +1,8 @@
 import { IExporter, Dataset, ExportContext, ExportResult } from "@opendistil/core";
-import { OpenAIExporter } from "./exporters/openaiExporter";
-import { AnthropicExporter } from "./exporters/anthropicExporter";
-import { ShareGPTExporter } from "./exporters/sharegptExporter";
-import { GenericJSONLExporter } from "./exporters/genericJsonlExporter";
+import { OpenAIExporter } from "./exporters/openaiExporter.js";
+import { AnthropicExporter } from "./exporters/anthropicExporter.js";
+import { ShareGPTExporter } from "./exporters/sharegptExporter.js";
+import { GenericJSONLExporter } from "./exporters/genericJsonlExporter.js";
 
 export class ExporterPipeline {
   private exporters: Map<string, IExporter> = new Map();

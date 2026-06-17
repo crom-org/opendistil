@@ -1,7 +1,7 @@
-export { Runner } from "./runner";
-export { SessionManager } from "./sessionManager";
-export { ExecutionController } from "./executionController";
-export { TaskExecutor } from "./taskExecutor";
-export type { ExecutionResult, RunnerConfig } from "./runner";
-export type { ExecutionPlan, ExecutionReport } from "./executionController";
-export type { TaskExecutionHooks } from "./taskExecutor";
+export { Runner } from "./runner.js";
+export { SessionManager } from "./sessionManager.js";
+export { ExecutionController } from "./executionController.js";
+export { TaskExecutor } from "./taskExecutor.js";
+export type { ExecutionResult, RunnerConfig } from "./runner.js";
+export type { ExecutionPlan, ExecutionReport } from "./executionController.js";
+export type { TaskExecutionHooks } from "./taskExecutor.js";

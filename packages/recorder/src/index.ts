@@ -1,6 +1,6 @@
-export { Recorder } from "./recorder";
-export { EventListener } from "./eventListener";
-export { TrajectoryBuilder } from "./trajectoryBuilder";
-export { ToolCallExtractor } from "./toolCallExtractor";
-export { MetadataCollector } from "./metadataCollector";
-export { Serializer } from "./serializer";
+export { Recorder } from "./recorder.js";
+export { EventListener } from "./eventListener.js";
+export { TrajectoryBuilder } from "./trajectoryBuilder.js";
+export { ToolCallExtractor } from "./toolCallExtractor.js";
+export { MetadataCollector } from "./metadataCollector.js";
+export { Serializer } from "./serializer.js";

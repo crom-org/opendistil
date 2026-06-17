@@ -1,4 +1,4 @@
-import { Environment, EnvironmentSpec, EnvironmentHealthCheck } from "../types/environment";
+import { Environment, EnvironmentSpec, EnvironmentHealthCheck } from "../types/environment.js";
 
 export interface IEnvironmentProvider {
   readonly name: string;

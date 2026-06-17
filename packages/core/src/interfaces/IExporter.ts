@@ -1,4 +1,4 @@
-import { Dataset, DatasetRecord } from "../types/dataset";
+import { Dataset, DatasetRecord } from "../types/dataset.js";
 
 export interface ExportContext {
   dataset: Dataset;

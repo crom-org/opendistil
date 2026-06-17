@@ -1,5 +1,5 @@
-import { Dataset } from "../types/dataset";
-import { ValidationResult, TrajectoryValidator } from "./trajectoryValidator";
+import { Dataset } from "../types/dataset.js";
+import { ValidationResult, TrajectoryValidator } from "./trajectoryValidator.js";
 
 export class DatasetValidator {
   private trajectoryValidator = new TrajectoryValidator();

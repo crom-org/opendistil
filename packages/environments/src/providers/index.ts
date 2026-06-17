@@ -1,3 +1,3 @@
-export { PodmanProvider } from "./podmanProvider";
-export { DockerProvider } from "./dockerProvider";
-export { LocalProvider } from "./localProvider";
+export { PodmanProvider } from "./podmanProvider.js";
+export { DockerProvider } from "./dockerProvider.js";
+export { LocalProvider } from "./localProvider.js";

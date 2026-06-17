@@ -1,6 +1,6 @@
-export { OpenAIExporter } from "./exporters/openaiExporter";
-export { AnthropicExporter } from "./exporters/anthropicExporter";
-export { ShareGPTExporter } from "./exporters/sharegptExporter";
-export { GenericJSONLExporter } from "./exporters/genericJsonlExporter";
-export { ExporterPipeline } from "./pipeline";
-export { ExporterRegistry } from "./registry";
+export { OpenAIExporter } from "./exporters/openaiExporter.js";
+export { AnthropicExporter } from "./exporters/anthropicExporter.js";
+export { ShareGPTExporter } from "./exporters/sharegptExporter.js";
+export { GenericJSONLExporter } from "./exporters/genericJsonlExporter.js";
+export { ExporterPipeline } from "./pipeline.js";
+export { ExporterRegistry } from "./registry.js";

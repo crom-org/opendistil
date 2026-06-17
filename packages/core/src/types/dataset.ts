@@ -1,4 +1,4 @@
-import { Trajectory } from "./trajectory";
+import { Trajectory } from "./trajectory.js";
 
 export interface DatasetRecord {
   trajectory: Trajectory;
@@ -76,4 +76,4 @@ export interface DatasetMetadata {
   };
 }
 
-import { ToolDefinition } from "./trajectory";
+import { ToolDefinition } from "./trajectory.js";

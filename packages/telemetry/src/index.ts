@@ -1,5 +1,5 @@
-export { MetricsCollector } from "./metricsCollector";
-export type { MetricPoint } from "./metricsCollector";
-export { Statistics } from "./statistics";
-export { EventLogger, LogLevel } from "./eventLogger";
-export type { LogEntry } from "./eventLogger";
+export { MetricsCollector } from "./metricsCollector.js";
+export type { MetricPoint } from "./metricsCollector.js";
+export { Statistics } from "./statistics.js";
+export { EventLogger, LogLevel } from "./eventLogger.js";
+export type { LogEntry } from "./eventLogger.js";

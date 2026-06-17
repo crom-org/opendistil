@@ -1,3 +1,4 @@
+import { readFileSync } from "fs";
 import { Command } from "commander";
 import { OpenDistil, GenerateConfig } from "opendistil";
 
@@ -14,8 +15,7 @@ export function registerGenerateCommand(program: Command): void {
     .option("--format <formats>", "Export formats (comma-separated)", "jsonl")
     .action(async (options) => {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const tasks = require(options.tasks);
+        const tasks = JSON.parse(readFileSync(options.tasks, "utf-8"));
         const taskArray = Array.isArray(tasks) ? tasks : tasks.tasks ?? [];
 
         const config: GenerateConfig = {

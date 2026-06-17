@@ -1,4 +1,4 @@
-import { Trajectory } from "../types/trajectory";
+import { Trajectory } from "../types/trajectory.js";
 
 export interface IRecorder {
   attach(session: unknown): () => void;

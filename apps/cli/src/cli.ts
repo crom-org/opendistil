@@ -1,11 +1,13 @@
+import { createRequire } from "module";
 import { Command } from "commander";
-import { registerGenerateCommand } from "./commands/generate";
-import { registerExportCommand } from "./commands/export";
-import { registerValidateCommand } from "./commands/validate";
-import { registerInspectCommand } from "./commands/inspect";
-import { registerReplayCommand } from "./commands/replay";
-import { registerListCommand } from "./commands/list";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+import { registerGenerateCommand } from "./commands/generate.js";
+import { registerExportCommand } from "./commands/export.js";
+import { registerValidateCommand } from "./commands/validate.js";
+import { registerInspectCommand } from "./commands/inspect.js";
+import { registerReplayCommand } from "./commands/replay.js";
+import { registerListCommand } from "./commands/list.js";
+
+const require = createRequire(import.meta.url);
 const packageJson = require("../package.json");
 
 export function createCLI(): Command {

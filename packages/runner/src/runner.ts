@@ -1,7 +1,8 @@
 import type { AgentSession } from "@earendil-works/pi-coding-agent";
-import { createAgentSession, SessionManager, AuthStorage, ModelRegistry } from "@earendil-works/pi-coding-agent";
 import { IEnvironmentProvider, TaskDefinition, Trajectory } from "@opendistil/core";
 import { Recorder } from "@opendistil/recorder";
+
+
 
 export interface RunnerConfig {
   maxConcurrent: number;
@@ -85,6 +86,8 @@ export class Runner {
   }
 
   private async createSession(): Promise<AgentSession> {
+    const { createAgentSession, SessionManager, AuthStorage, ModelRegistry } = await import("@earendil-works/pi-coding-agent");
+
     const authStorage = AuthStorage.create();
     const modelRegistry = await ModelRegistry.create(authStorage);
 

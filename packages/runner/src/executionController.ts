@@ -1,5 +1,5 @@
 import { TaskDefinition, Trajectory } from "@opendistil/core";
-import { ExecutionResult } from "./runner";
+import { ExecutionResult } from "./runner.js";
 
 export interface ExecutionPlan {
   tasks: TaskDefinition[];
