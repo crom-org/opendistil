@@ -1,4 +1,4 @@
-import { AgentStartEvent, AgentEndEvent, TrajectoryMetadata } from "@opendistil/core";
+import { TrajectoryMetadata } from "@opendistil/core";
 
 export class MetadataCollector {
   private modelId: string = "";
@@ -11,26 +11,22 @@ export class MetadataCollector {
   private finalStatus: "success" | "failure" | "timeout" | "error" = "success";
   private startTime: string = "";
 
-  captureAgentStart(event: AgentStartEvent): void {
-    this.modelId = event.modelId;
-    this.modelProvider = event.modelProvider;
-    this.startTime = event.timestamp;
+  setModelInfo(modelId: string, modelProvider: string): void {
+    this.modelId = modelId;
+    this.modelProvider = modelProvider;
   }
 
-  captureAgentEnd(event: AgentEndEvent): void {
-    this.finalStatus = event.finalStatus;
-    this.totalTokens = event.usage.totalTokens;
-    this.promptTokens = event.usage.promptTokens;
-    this.completionTokens = event.usage.completionTokens;
+  setStartTime(time: string): void {
+    this.startTime = time;
   }
 
-  captureTokenUsage(usage: { totalTokens: number; promptTokens: number; completionTokens: number }): void {
-    this.totalTokens = usage.totalTokens;
-    this.promptTokens = usage.promptTokens;
-    this.completionTokens = usage.completionTokens;
+  setTokenUsage(total: number, prompt: number, completion: number): void {
+    this.totalTokens = total;
+    this.promptTokens = prompt;
+    this.completionTokens = completion;
   }
 
-  captureFinalStatus(status: "success" | "failure" | "timeout" | "error"): void {
+  setFinalStatus(status: "success" | "failure" | "timeout" | "error"): void {
     this.finalStatus = status;
   }
 

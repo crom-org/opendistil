@@ -1,9 +1,13 @@
+import type { AgentSession } from "@earendil-works/pi-coding-agent";
+import { createAgentSession, SessionManager, AuthStorage, ModelRegistry } from "@earendil-works/pi-coding-agent";
 import { IEnvironmentProvider, TaskDefinition, Trajectory } from "@opendistil/core";
 import { Recorder } from "@opendistil/recorder";
 
 export interface RunnerConfig {
   maxConcurrent: number;
   defaultTimeoutMs: number;
+  modelId?: string;
+  modelProvider?: string;
 }
 
 export interface ExecutionResult {
@@ -33,13 +37,18 @@ export class Runner {
     const recorder = new Recorder();
 
     try {
-      // Placeholder: In production, this would:
-      // 1. Create an agent session via Pi SDK
-      // 2. Attach recorder to the runtime
-      // 3. Execute the task
-      // 4. Build trajectory from recorded events
+      const session = await this.createSession();
+      const unsubscribe = recorder.attach(session);
+
+      await session.prompt(task.description);
+
+      unsubscribe();
+      session.dispose();
 
       const trajectory = await recorder.buildTrajectory();
+      trajectory.metadata.taskId = task.id;
+      trajectory.metadata.taskDescription = task.description;
+      trajectory.metadata.totalDurationMs = Date.now() - startTime;
 
       return {
         taskId: task.id,
@@ -73,5 +82,26 @@ export class Runner {
     }
 
     return results;
+  }
+
+  private async createSession(): Promise<AgentSession> {
+    const authStorage = AuthStorage.create();
+    const modelRegistry = await ModelRegistry.create(authStorage);
+
+    let model: ReturnType<typeof modelRegistry.find>;
+
+    if (this.config.modelId && this.config.modelProvider) {
+      model = modelRegistry.find(this.config.modelProvider, this.config.modelId);
+    }
+
+    const result = await createAgentSession({
+      cwd: process.cwd(),
+      sessionManager: SessionManager.create(process.cwd()),
+      authStorage,
+      modelRegistry,
+      model: model as any,
+    });
+
+    return result.session;
   }
 }

@@ -5,7 +5,9 @@
   "license": "Apache-2.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
@@ -14,9 +16,10 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@earendil-works/pi-coding-agent": "^0.79.6",
     "@opendistil/core": "*",
-    "@opendistil/recorder": "*",
     "@opendistil/environments": "*",
+    "@opendistil/recorder": "*",
     "@opendistil/telemetry": "*"
   },
   "devDependencies": {

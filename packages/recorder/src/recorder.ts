@@ -1,109 +1,92 @@
+import type { AgentSession, AgentSessionEvent } from "@earendil-works/pi-coding-agent";
 import {
-  RecorderConfig,
   Trajectory,
-  AgentStartEvent,
-  AgentEndEvent,
-  TurnStartEvent,
-  TurnEndEvent,
-  MessageStartEvent,
-  MessageEndEvent,
-  ToolExecutionStartEvent,
-  ToolExecutionUpdateEvent,
-  ToolExecutionEndEvent,
 } from "@opendistil/core";
 import { TrajectoryBuilder } from "./trajectoryBuilder";
 import { MetadataCollector } from "./metadataCollector";
-import { ToolCallExtractor } from "./toolCallExtractor";
 
 export class Recorder {
   private trajectoryBuilder: TrajectoryBuilder;
   private metadataCollector: MetadataCollector;
-  private toolCallExtractor: ToolCallExtractor;
-  private config: RecorderConfig;
+  private unsubscribe: (() => void) | null = null;
 
-  constructor(config?: Partial<RecorderConfig>) {
-    this.config = {
-      captureRawEvents: true,
-      captureIntermediateSteps: true,
-      maxToolCallDurationMs: 300_000,
-      ...config,
-    };
-    this.trajectoryBuilder = new TrajectoryBuilder(this.config);
+  constructor() {
+    this.trajectoryBuilder = new TrajectoryBuilder();
     this.metadataCollector = new MetadataCollector();
-    this.toolCallExtractor = new ToolCallExtractor();
   }
 
-  attach(runtime: {
-    on: (event: string, handler: (...args: any[]) => void) => () => void;
-  }): void {
-    const unsubscribeFns: Array<() => void> = [];
+  attach(session: AgentSession): () => void {
+    this.unsubscribe = session.subscribe((event: AgentSessionEvent) => {
+      switch (event.type) {
+        case "agent_start":
+          this.trajectoryBuilder.startSession();
+          break;
 
-    unsubscribeFns.push(
-      runtime.on("agent_start", (event: AgentStartEvent) => {
-        this.metadataCollector.captureAgentStart(event);
-        this.trajectoryBuilder.startSession(event);
-      }),
-    );
+        case "agent_end":
+          this.trajectoryBuilder.endSession(event.messages as unknown as any[]);
+          break;
 
-    unsubscribeFns.push(
-      runtime.on("agent_end", (event: AgentEndEvent) => {
-        this.metadataCollector.captureAgentEnd(event);
-        this.trajectoryBuilder.endSession(event);
-      }),
-    );
+        case "turn_start":
+          this.trajectoryBuilder.beginTurn();
+          break;
 
-    unsubscribeFns.push(
-      runtime.on("turn_start", (event: TurnStartEvent) => {
-        this.trajectoryBuilder.beginTurn(event);
-      }),
-    );
+        case "turn_end":
+          this.trajectoryBuilder.endTurn(
+            event.message as unknown as any,
+            event.toolResults as unknown as any[],
+          );
+          break;
 
-    unsubscribeFns.push(
-      runtime.on("turn_end", (event: TurnEndEvent) => {
-        this.trajectoryBuilder.endTurn(event);
-      }),
-    );
+        case "message_start":
+          this.trajectoryBuilder.beginMessage(event.message as unknown as any);
+          break;
 
-    unsubscribeFns.push(
-      runtime.on("message_start", (event: MessageStartEvent) => {
-        this.trajectoryBuilder.beginMessage(event);
-      }),
-    );
+        case "message_update":
+          this.trajectoryBuilder.updateMessage(
+            event.message as unknown as any,
+            event.assistantMessageEvent as unknown as any,
+          );
+          break;
 
-    unsubscribeFns.push(
-      runtime.on("message_end", (event: MessageEndEvent) => {
-        this.trajectoryBuilder.endMessage(event);
-      }),
-    );
+        case "message_end":
+          this.trajectoryBuilder.endMessage(event.message as unknown as any);
+          break;
 
-    unsubscribeFns.push(
-      runtime.on("tool_execution_start", (event: ToolExecutionStartEvent) => {
-        const toolCall = this.toolCallExtractor.extractStart(event);
-        this.trajectoryBuilder.recordToolCallStart(toolCall);
-        this.metadataCollector.registerToolUsage(event.toolName);
-      }),
-    );
+        case "tool_execution_start":
+          this.trajectoryBuilder.recordToolCallStart(
+            event.toolCallId,
+            event.toolName,
+            event.args,
+          );
+          this.metadataCollector.registerToolUsage(event.toolName);
+          break;
 
-    unsubscribeFns.push(
-      runtime.on("tool_execution_update", (event: ToolExecutionUpdateEvent) => {
-        if (this.config.captureIntermediateSteps) {
-          this.trajectoryBuilder.updateToolCall(event);
-        }
-      }),
-    );
+        case "tool_execution_update":
+          this.trajectoryBuilder.updateToolCall(
+            event.toolCallId,
+            event.partialResult,
+          );
+          break;
 
-    unsubscribeFns.push(
-      runtime.on("tool_execution_end", (event: ToolExecutionEndEvent) => {
-        const toolCall = this.toolCallExtractor.extractEnd(event);
-        this.trajectoryBuilder.recordToolCallEnd(toolCall);
-      }),
-    );
+        case "tool_execution_end":
+          this.trajectoryBuilder.recordToolCallEnd(
+            event.toolCallId,
+            event.toolName,
+            event.result,
+            event.isError,
+          );
+          break;
+      }
+    });
 
-    this.trajectoryBuilder.setUnsubscribeFns(unsubscribeFns);
+    return () => this.detach();
   }
 
   detach(): void {
-    this.trajectoryBuilder.cleanup();
+    if (this.unsubscribe) {
+      this.unsubscribe();
+      this.unsubscribe = null;
+    }
   }
 
   async buildTrajectory(): Promise<Trajectory> {

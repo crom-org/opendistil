@@ -1,4 +1,4 @@
-import { AgentEvent, EventHandler } from "@opendistil/core";
+type EventHandler = (event: Record<string, unknown>) => void;
 
 export class EventListener {
   private handlers: Map<string, Set<EventHandler>> = new Map();
@@ -14,8 +14,8 @@ export class EventListener {
     };
   }
 
-  emit(event: AgentEvent): void {
-    const handlers = this.handlers.get(event.type);
+  emit(event: Record<string, unknown>): void {
+    const handlers = this.handlers.get(event.type as string);
     if (handlers) {
       for (const handler of handlers) {
         handler(event);

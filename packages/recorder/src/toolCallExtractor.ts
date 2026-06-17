@@ -1,8 +1,4 @@
-import {
-  ToolExecutionStartEvent,
-  ToolExecutionEndEvent,
-  ToolCall,
-} from "@opendistil/core";
+import { ToolCall } from "@opendistil/core";
 
 export interface ToolCallState {
   id: string;
@@ -15,37 +11,42 @@ export interface ToolCallState {
 export class ToolCallExtractor {
   private toolCallTimers: Map<string, number> = new Map();
 
-  extractStart(event: ToolExecutionStartEvent): ToolCallState {
+  extractStart(toolCallId: string, toolName: string, args: unknown): ToolCallState {
     const now = Date.now();
-    this.toolCallTimers.set(event.toolExecutionId, now);
+    this.toolCallTimers.set(toolCallId, now);
 
     return {
-      id: event.toolExecutionId,
-      toolName: event.toolName,
-      arguments: event.args,
+      id: toolCallId,
+      toolName,
+      arguments: (args as Record<string, unknown>) ?? {},
       startTime: new Date(now).toISOString(),
       status: "running",
     };
   }
 
-  extractEnd(event: ToolExecutionEndEvent): ToolCall {
-    const startTime = this.toolCallTimers.get(event.toolExecutionId);
+  extractEnd(
+    toolCallId: string,
+    toolName: string,
+    result: unknown,
+    isError: boolean,
+  ): ToolCall {
+    const startTime = this.toolCallTimers.get(toolCallId);
     const endTimestamp = Date.now();
     const durationMs = startTime ? endTimestamp - startTime : 0;
-    this.toolCallTimers.delete(event.toolExecutionId);
+    this.toolCallTimers.delete(toolCallId);
 
     return {
-      id: event.toolExecutionId,
-      toolName: event.toolName,
-      arguments: event.args ?? {},
+      id: toolCallId,
+      toolName,
+      arguments: {},
       startTime: startTime
         ? new Date(startTime).toISOString()
         : new Date(endTimestamp).toISOString(),
       endTime: new Date(endTimestamp).toISOString(),
       durationMs,
-      result: event.result,
-      error: event.error ?? null,
-      status: event.error ? "error" : "success",
+      result,
+      error: isError ? (result as string) ?? "Tool execution error" : null,
+      status: isError ? "error" : "success",
     };
   }
 }
