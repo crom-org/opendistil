@@ -5,7 +5,7 @@ Open-source platform for generating high-quality agent trajectory datasets for t
 ## Installation
 
 ```bash
-npm install -g opendistil
+npm install -g @opendistil/cli
 ```
 
 ## Quick Start
@@ -42,16 +42,16 @@ const result = await client.generate({
 OpenDistil is a TypeScript monorepo with 9 packages:
 
 | Package | Description |
-|---------|-------------|
-| `@opendistil/core` | Canonical model, interfaces, validation |
-| `@opendistil/recorder` | Event capture and trajectory building |
-| `@opendistil/runner` | Agent session execution |
-| `@opendistil/environments` | Podman, Docker, and local providers |
-| `@opendistil/exporters` | Multi-format export pipeline |
-| `@opendistil/task-generator` | Task definition and generation |
-| `@opendistil/datasets` | Dataset management and quality |
-| `@opendistil/telemetry` | Metrics and event logging |
-| `opendistil` (SDK) | Public API and orchestrator |
+|----------|-------------|
+| `@opendistil/cli` | OpenDistil CLI |
+| `@opendistil/core` | Core types, interfaces, and validation for OpenDistil |
+| `@opendistil/datasets` | Dataset management, validation, deduplication, and scoring |
+| `@opendistil/environments` | Environment providers for OpenDistil (Podman, Docker, Local) |
+| `@opendistil/exporters` | Multi-format dataset exporters (OpenAI, Anthropic, ShareGPT, JSONL) |
+| `@opendistil/recorder` | Event recorder for capturing agent trajectories |
+| `@opendistil/runner` | Agent session runner and execution controller |
+| `@opendistil/task-generator` | Task generation for agent datasets |
+| `@opendistil/telemetry` | Telemetry, metrics, and event logging for OpenDistil |
 
 ## License
 
