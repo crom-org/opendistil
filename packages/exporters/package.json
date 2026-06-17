@@ -1,6 +1,6 @@
 {
   "name": "@opendistil/exporters",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Multi-format dataset exporters (OpenAI, Anthropic, ShareGPT, JSONL)",
   "license": "Apache-2.0",
   "type": "module",

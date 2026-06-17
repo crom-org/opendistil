@@ -1,6 +1,6 @@
 {
   "name": "@opendistil/runner",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Agent session runner and execution controller",
   "license": "Apache-2.0",
   "type": "module",

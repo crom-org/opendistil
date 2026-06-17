@@ -1,6 +1,6 @@
 {
   "name": "@opendistil/telemetry",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Telemetry, metrics, and event logging for OpenDistil",
   "license": "Apache-2.0",
   "type": "module",
